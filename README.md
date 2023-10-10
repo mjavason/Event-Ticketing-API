@@ -42,13 +42,11 @@ The API will be accessible at `http://localhost:5000` by default.
 
 - **Event Creation**: Easily create and configure events, including details, pricing, and seating plans.
 
-- **Ticket Sales**: Sell event tickets online with options for e-tickets and mobile ticketing.
+- **Ticket Sales**: Sell event tickets online.
 
 - **Attendee Management**: Efficiently track attendee registrations, check-ins, and attendance records.
 
-- **Payment Processing**: Securely process ticket sales and handle refunds with payment gateway integration.
-
-- **Event Promotion**: Use marketing tools like email campaigns and social media integration to promote events.
+- **Payment Processing**: Securely process ticket sales.
 
 - **QR Code Integration**: Generate and scan QR codes for contactless ticket validation and check-in.
 
@@ -57,8 +55,6 @@ The API will be accessible at `http://localhost:5000` by default.
 - **Feedback and Surveys**: Collect attendee feedback to enhance future events.
 
 - **Multi-Event Support**: Manage multiple events running simultaneously or at different times.
-
-- **Security**: Prioritize data security, especially for handling sensitive payment information.
 
 ## Environment Variables
 
