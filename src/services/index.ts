@@ -9,3 +9,4 @@ export { mailService } from './mail.service';
 export { resetTokenService } from './reset_token.service';
 export { scheduleService } from './schedule.service';
 export { eventService } from './event.service';
+export {ticketService } from './ticket.service';

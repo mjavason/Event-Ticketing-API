@@ -3,7 +3,7 @@ import mongooseAutopopulate from 'mongoose-autopopulate';
 import { DATABASES } from '../../constants';
 import IEvent from '../../interfaces/event.interface';
 
-const EventSchema = new Schema<IEvent>(
+const eventSchema = new Schema<IEvent>(
   {
     // Reference to the organizer/user who owns the event
     organizer: {
@@ -20,11 +20,11 @@ const EventSchema = new Schema<IEvent>(
       type: String,
       required: true,
     },
-    startTime: {
+    start_time: {
       type: Date,
       required: true,
     },
-    endTime: {
+    end_time: {
       type: Date,
       required: true,
     },
@@ -32,7 +32,7 @@ const EventSchema = new Schema<IEvent>(
       type: String,
       required: true,
     },
-    seatingPlan: [
+    seating_plan: [
       {
         section: String,
         capacity: Number,
@@ -58,9 +58,9 @@ const EventSchema = new Schema<IEvent>(
 );
 
 // Plugin for autopopulating the 'organizer' field when querying
-EventSchema.plugin(mongooseAutopopulate);
+eventSchema.plugin(mongooseAutopopulate);
 
 // Create and export the Event model
-const EventModel = model<IEvent>(DATABASES.EVENT, EventSchema);
+const EventModel = model<IEvent>(DATABASES.EVENT, eventSchema);
 
 export default EventModel;

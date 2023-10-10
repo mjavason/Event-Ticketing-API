@@ -1,4 +1,4 @@
-import Model from '../database/models/event.model';
+import Model from '../database/models/ticket.model';
 
 class Service {
   async create(body: object) {
@@ -50,4 +50,4 @@ class Service {
   }
 }
 
-export const eventService = new Service();
+export const ticketService = new Service();

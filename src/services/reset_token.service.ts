@@ -40,6 +40,10 @@ class Service {
   async hardDelete(searchParams: object) {
     return await Model.findOneAndDelete(searchParams).select('-__v');
   }
+
+  async exists(searchParams: object) {
+    return await Model.exists(searchParams);
+  }
 }
 
 export const resetTokenService = new Service();

@@ -7,10 +7,10 @@ class Validation {
     body: z.object({
       title: z.string().min(3).max(255),
       description: z.string().min(1),
-      startTime: z.string(),
-      endTime: z.string(),
+      start_time: z.string(),
+      end_time: z.string(),
       location: z.string().min(1),
-      seatingPlan: z.array(
+      seating_plan: z.array(
         z.object({
           section: z.string().min(1),
           capacity: z.number().int().positive(),
@@ -38,10 +38,10 @@ class Validation {
         .optional(),
       title: z.string().min(3).max(255).optional(),
       description: z.string().min(1).optional(),
-      startTime: z.string().optional(),
-      endTime: z.string().optional(),
+      start_time: z.string().optional(),
+      end_time: z.string().optional(),
       location: z.string().min(1).optional(),
-      seatingPlan: z
+      seating_plan: z
         .array(
           z.object({
             section: z.string().min(1),
@@ -52,7 +52,6 @@ class Validation {
         )
         .optional(),
       status: z.enum(['draft', 'published', 'cancelled', 'done']).optional(),
-      deleted: z.boolean().optional(),
     }),
   };
 
@@ -80,8 +79,8 @@ class Validation {
           message: 'Invalid ObjectId format',
         })
         .optional(),
-      startTime: z.string().optional(),
-      endTime: z.string().optional(),
+      start_time: z.string().optional(),
+      end_time: z.string().optional(),
       location: z.string().min(1).optional(),
       status: z.enum(['draft', 'published', 'cancelled', 'done']).optional(),
     }),

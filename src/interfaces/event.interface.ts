@@ -5,10 +5,10 @@ export default interface IEvent {
   organizer: string | Types.ObjectId; // You may replace "organizer" with "user" if that's the terminology you prefer
   title: string;
   description: string;
-  startTime: Date;
-  endTime: Date;
+  start_time: Date;
+  end_time: Date;
   location: string;
-  seatingPlan: {
+  seating_plan: {
     section: string;
     capacity: number;
     price: number;

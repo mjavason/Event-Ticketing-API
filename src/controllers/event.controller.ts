@@ -30,6 +30,15 @@ class Controller {
     return SuccessResponse(res, data);
   }
 
+  async exists(req: Request, res: Response) {
+    const data = await eventService.exists(req.query);
+
+    // If nothing exists, return 0 as the count
+    if (!data) return SuccessResponse(res, { data: false });
+
+    return SuccessResponse(res, data);
+  }
+
   async getCount(req: Request, res: Response) {
     const data = await eventService.getCount(req.query);
 
@@ -93,7 +102,7 @@ class Controller {
 
       // Find events that match the criteria (upcoming and active events)
       const events = await eventService.find({
-        startTime: { $lte: thresholdTime },
+        start_time: { $lte: thresholdTime },
         status: 'active',
       });
 

@@ -8,3 +8,4 @@ export { mailController } from './mail.controller';
 export { resetTokenController } from './reset_token.controller';
 export { scheduleController } from './schedule.controller';
 export { eventController } from './event.controller';
+export {ticketController } from './ticket.controller';

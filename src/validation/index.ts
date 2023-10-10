@@ -5,3 +5,4 @@
 
 export { authValidation } from './auth.validation';
 export { eventValidation } from './event.validation';
+export { ticketValidation } from './ticket.validation';

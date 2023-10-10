@@ -45,6 +45,10 @@ class Service {
   async hardDelete(searchParams: Partial<Interface>) {
     return await Model.findOneAndDelete(searchParams).select('-__v');
   }
+
+  async exists(searchParams: object) {
+    return await Model.exists(searchParams);
+  }
 }
 
 export const userService = new Service();

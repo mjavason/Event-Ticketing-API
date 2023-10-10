@@ -12,6 +12,8 @@ router.get('/search', processRequestQuery(eventValidation.find.query), eventCont
 
 router.get('/count', processRequestQuery(eventValidation.find.query), eventController.getCount);
 
+router.get('/exists', processRequestQuery(eventValidation.find.query), eventController.exists);
+
 router.get('/', eventController.getAll);
 
 router.get('/:pagination', eventController.getAll);
