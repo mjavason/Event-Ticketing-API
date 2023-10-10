@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { eventService, userService } from '../services';
+import { eventService, ticketService, userService } from '../services';
 import { SuccessResponse, InternalErrorResponse, NotFoundResponse } from '../helpers/response';
 import { MESSAGES } from '../constants';
 import logger from '../helpers/logger';
@@ -103,7 +103,7 @@ class Controller {
       // Find events that match the criteria (upcoming and active events)
       const events = await eventService.find({
         start_time: { $lte: thresholdTime },
-        status: 'active',
+        status: 'published',
       });
 
       // If no matching events are found, log and return
@@ -112,48 +112,78 @@ class Controller {
         return;
       }
 
-      // // Iterate through the found events
-      // for (const event of events) {
-      //   const eventId = event._id;
+      // Iterate through the found events
+      for (const event of events) {
+        // Find all tickets associated with the event
+        const tickets = await ticketService.find({ event: event._id });
 
-      //   // Find all tickets associated with the event
-      //   const tickets = await ticketService.find({ event: eventId });
+        // If no tickets are found, log and return
+        if (!tickets || tickets.length === 0) {
+          logger.error(`No tickets found for event: ${event.title}`);
+          return;
+        }
 
-      //   // If no tickets are found, log and return
-      //   if (!tickets || tickets.length === 0) {
-      //     logger.error(`No tickets found for event: ${event.title}`);
-      //     return;
-      //   }
+        for (const ticket of tickets) {
+          // Find the user associated with the ticket
+          const user = await userService.findOne({ _id: ticket.user });
 
-      //   for (const ticket of tickets) {
-      //     // Find the user associated with the ticket
-      //     const user = await userService.findOne({ _id: ticket.user });
+          // If the user is not found, log and return
+          if (!user) {
+            logger.error(`User registered to ticket not found.`);
+            return;
+          }
 
-      //     // If the user is not found, log and return
-      //     if (!user) {
-      //       logger.error(`User registered to ticket not found.`);
-      //       return;
-      //     }
+          // Send an email reminder to the ticket holder
+          await mailController.sendEventReminderMail(
+            user.email, // recipient's email address
+            event.title, // event name
+            event.start_time.toString(), // event date and time
+            event.location, // event location
+            user.first_name, // recipient's first name
+          );
 
-      //     // Send an email reminder to the ticket holder
-      //     await mailController.sendEventReminderMail(
-      //       user.first_name,
-      //       user.last_name,
-      //       user.email,
-      //       event.title,
-      //       durationBeforeEventInHours,
-      //     );
-
-      //     logger.info(
-      //       `Event: ${event.title} for ${user.first_name} ${user.last_name}, Ticket ID: ${
-      //         ticket.ticket_number
-      //       } reminded successfully on ${new Date()}`,
-      //     );
-      //   }
-      // }
+          logger.info(
+            `Event: ${event.title} for ${user.first_name} ${user.last_name}, Ticket ID: ${
+              ticket.ticket_number
+            } reminded successfully on ${new Date()}`,
+          );
+        }
+      }
     } catch (error: any) {
       // Handle any unexpected errors that may occur during the process
       logger.error(`Error while sending event reminders: ${error.message}`);
+    }
+  }
+
+  /**
+   * Helper function to check and mark events as 'done' when their end_time is passed.
+   */
+  async markEventsAsDone() {
+    try {
+      // Get the current time
+      const currentTime = new Date();
+
+      // Find events with end_time in the past
+      const eventsToUpdate = await eventService.find({
+        end_time: { $lte: currentTime },
+        status: 'published', // Assuming 'active' events need to be marked as 'done'
+      });
+
+      // If no matching events are found, log and return
+      if (!eventsToUpdate || eventsToUpdate.length === 0) {
+        logger.info(`No events with end_time in the past found.`);
+        return;
+      }
+
+      // Iterate through the found events and update their status to 'done'
+      for (const event of eventsToUpdate) {
+        event.status = 'done';
+        await event.save();
+        logger.info(`Event marked as 'done': ${event.title}`);
+      }
+    } catch (error: any) {
+      // Handle any unexpected errors that may occur during the process
+      logger.error(`Error while marking events as 'done': ${error.message}`);
     }
   }
 }

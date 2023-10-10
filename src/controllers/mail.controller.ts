@@ -78,26 +78,29 @@ class Controller {
   }
 
   /**
-   * Send an email notification to the site owner when the site is down.
+   * Send an event reminder email.
    *
-   * @param {string} email - The email address of the site owner.
-   * @param {string} siteTitle - The title of the site that is down.
-   * @param {string} siteLink - The link to the site that is down.
-   * @param {string} firstName - The first name of the site owner.
+   * @param {string} email - The recipient's email address.
+   * @param {string} eventName - The name of the event.
+   * @param {string} eventDateAndTime - The date and time of the event.
+   * @param {string} eventLocation - The location of the event.
+   * @param {string} firstName - The recipient's first name.
    */
-  async sendSiteDownNotificationMail(
+  async sendEventReminderMail(
     email: string,
-    siteTitle: string,
-    siteLink: string,
+    eventName: string,
+    eventDateAndTime: string,
+    eventLocation: string,
     firstName: string,
   ) {
     // Load the email template
-    const templatePath = 'src/templates/site_down.html';
+    const templatePath = 'event_reminder.html';
 
     // Replace placeholders with actual data
     const data = {
-      siteTitle: siteTitle,
-      siteLink: siteLink,
+      eventName: eventName,
+      eventDateAndTime: eventDateAndTime,
+      eventLocation: eventLocation,
       firstName: firstName,
     };
 
@@ -107,15 +110,9 @@ class Controller {
     if (!compiledTemplate) return false;
 
     // Send the email
-    const info = await mailService.sendMail(
-      email,
-      compiledTemplate,
-      `${APP_NAME} Site Down Notification`,
-    );
+    const info = await mailService.sendMail(email, compiledTemplate, 'Event Reminder');
 
-    logger.info(
-      `Site: ${siteTitle} (${siteLink}) is down. Site down notification email sent to: ${email}`,
-    );
+    logger.info(`Event reminder email sent to: ${email}`);
 
     return { info };
   }

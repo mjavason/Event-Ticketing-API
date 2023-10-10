@@ -41,6 +41,7 @@ class Controller {
   startDailyJobs() {
     scheduleService.startDaily(async () => {
       eventController.remindTicketHolders(24);
+      eventController.markEventsAsDone();
     });
   }
 
