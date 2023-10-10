@@ -13,13 +13,13 @@ const server: Server = app.listen(PORT, async () => {
   logger.info(`Server running on port ${PORT}`);
   // scheduleController.startEverySecond();
   // scheduleController.startEveryMinute();
-  scheduleController.startEvery10thMinute();
-  scheduleController.startEvery30thMinute();
-  scheduleController.startHourlyJobs();
+  // scheduleController.startEvery10thMinute();
+  // scheduleController.startEvery30thMinute();
+  // scheduleController.startHourlyJobs();
   scheduleController.startDailyJobs();
-  scheduleController.startWeeklyJobs();
-  scheduleController.startMonthlyJobs();
-  scheduleController.startYearlyJobs();
+  // scheduleController.startWeeklyJobs();
+  // scheduleController.startMonthlyJobs();
+  // scheduleController.startYearlyJobs();
 });
 
 // handle unhanled promise rejections

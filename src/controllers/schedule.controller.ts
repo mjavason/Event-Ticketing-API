@@ -1,5 +1,5 @@
 import { scheduleService } from '../services';
-import { siteController } from './site.controller';
+import { eventController } from './event.controller';
 
 // export const startSecondsJob = scheduleService.startEverySecond(() => logme());
 // export const startEveryMinuteJob = scheduleService.startEveryMinute(() => payHourlySalaries());
@@ -14,61 +14,47 @@ function sayHello() {
 }
 
 class Controller {
-  startEverySecond() {
-    scheduleService.startEverySecond(async () => {
-      // await paySalaries(1 'hour');
-      sayHello();
-    });
-  }
+  // startEverySecond() {
+  //   scheduleService.startEverySecond(async () => {
+  //     sayHello();
+  //   });
+  // }
 
-  startEveryMinute() {
-    scheduleService.startEveryMinute(async () => {
-      sayHello();
-      // siteController.checkSites(1, 'hourly');
-    });
-  }
+  // startEveryMinute() {
+  //   scheduleService.startEveryMinute(async () => {
+  //     sayHello();
+  //   });
+  // }
 
-  startEvery10thMinute() {
-    scheduleService.startEvery10thMinute(() => {
-      siteController.checkSites(1, 'hourly');
-    });
-  }
+  // startEvery10thMinute() {
+  //   scheduleService.startEvery10thMinute(() => {});
+  // }
 
-  startEvery30thMinute() {
-    scheduleService.startEvery30thMinute(() => {
-      siteController.checkSites(0.5, 'semi hourly');
-    });
-  }
+  // startEvery30thMinute() {
+  //   scheduleService.startEvery30thMinute(() => {});
+  // }
 
-  startHourlyJobs() {
-    scheduleService.startHourly(async () => {
-      await siteController.checkSites(1, 'hourly');
-    });
-  }
+  // startHourlyJobs() {
+  //   scheduleService.startHourly(async () => {});
+  // }
 
   startDailyJobs() {
     scheduleService.startDaily(async () => {
-      await siteController.checkSites(24, 'daily');
+      eventController.remindTicketHolders(24);
     });
   }
 
-  startWeeklyJobs() {
-    scheduleService.startWeekly(async () => {
-      await siteController.checkSites(168, 'weekly');
-    });
-  }
+  // startWeeklyJobs() {
+  //   scheduleService.startWeekly(async () => {});
+  // }
 
-  startMonthlyJobs() {
-    scheduleService.startMonthly(async () => {
-      await siteController.checkSites(720, 'monthly');
-    });
-  }
+  // startMonthlyJobs() {
+  //   scheduleService.startMonthly(async () => {});
+  // }
 
-  startYearlyJobs() {
-    scheduleService.startYearly(async () => {
-      await siteController.checkSites(8760, 'yearly');
-    });
-  }
+  // startYearlyJobs() {
+  //   scheduleService.startYearly(async () => {});
+  // }
 }
 
 export const scheduleController = new Controller();

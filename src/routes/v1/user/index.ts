@@ -1,9 +1,9 @@
 import express from 'express';
 const router = express.Router();
-import siteRouter from './site.route';
+import eventRouter from './event.route';
 import isAuth from '../../../middleware/is_auth.middleware';
 
 router.use(isAuth);
-router.use('/site', siteRouter);
+router.use('/event', eventRouter);
 
 export default router;
